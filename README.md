@@ -3,6 +3,11 @@
 Auflösung: 264x176
 
 ## Programmieren
+Benötigte Bibliotheken:
+
+- [GxEPD](https://github.com/ZinggJM/GxEPD/)
+
+
 Beim Programmieren über einen FTDI-Adapter die Spannung auf 3.3V einstellen und den Badge auf "Off" schalten.
 
 Zum Programmieren folgende Tastenkombination:
