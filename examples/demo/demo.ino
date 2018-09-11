@@ -1,7 +1,7 @@
 // Library: https://github.com/ZinggJM/GxEPD/
 #include <GxEPD.h>
 #include <GxFont_GFX.h>
-#include "ESP8266WiFi.h"
+#include "ESP8266WiFi.h" //WiFi.forceSleepBegin();
 
 #include "hannio.h"
 #include "arduinohannover.h"
@@ -34,19 +34,21 @@ GxEPD_Class display(io, RST_PIN, BUSY_PIN);
 uint32_t rtcData;
 
 void setup() {
+  WiFi.forceSleepBegin();
+  
+  display.init();
+  // Taster initialisieren, nachdem SPI initialisiert wurde (MISO)
   pinMode(BTN_O, INPUT_PULLUP);
   pinMode(BTN_UP, INPUT_PULLUP);
   pinMode(BTN_DOWN, INPUT_PULLUP);
   pinMode(BTN_X, INPUT_PULLUP);
   
-  WiFi.forceSleepBegin();
-  display.init();
   display.setRotation(3); // 1 = Anhänger unten; 3 = Anhänger oben
 
   //COUNTER LESEN
   ESP.rtcUserMemoryRead(0, (uint32_t*) &rtcData, sizeof(rtcData));
   //RESET DES COUNTERS
-  if (!digitalRead(BTN_O)) rtcData = 0;
+  if (!digitalRead(BTN_X)) rtcData = 0;
   rtcData++;
   //COUNTER SCHREIBEN
   ESP.rtcUserMemoryWrite(0, (uint32_t*) &rtcData, sizeof(rtcData));
