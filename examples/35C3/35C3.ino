@@ -3,14 +3,13 @@
 #include <GxFont_GFX.h>
 #include "ESP8266WiFi.h"
 
-#define NAME "Test"
 #define SWR
 
 #include "Fonts/FreeSans18pt7b.h"
 
-#include "hmf.h"
-#include "ah.h"
+#include "35c3.h"
 
+#define NAME "Super Mario"
 
 #ifdef SWR
 #include <GxGDEW027C44/GxGDEW027C44.cpp>    // 2.7" b/w/r
@@ -65,35 +64,21 @@ void setup() {
   //COUNTER SCHREIBEN
   ESP.rtcUserMemoryWrite(0, (uint32_t*) &rtcData, sizeof(rtcData));
 
-  display.fillScreen(GxEPD_WHITE);
+  display.fillScreen(GxEPD_BLACK);
   
-  display.setTextColor(GxEPD_BLACK);
-  display.setCursor(display.width() - 6 * 6 - 1, display.height() - 8);
-  display.print(analogRead(A0) * 4.4 / 1000.0);
-  display.print(" V");
+  display.setTextColor(GxEPD_WHITE);
   display.setFont(&FreeSans18pt7b);
-  display.setCursor(5, 32);
-  display.print(NAME);
 
   switch (rtcData % MODES) {
     case 0:
-      display.drawBitmap(arduino_hannover, 0, 40, 264, 92, GxEPD_BLACK, display.bm_transparent | display.bm_invert);
+      display.drawBitmap(CC35c3_1, 20, 0, 224, 176, HAS_RED ? GxEPD_RED : GxEPD_WHITE, display.bm_transparent /*| display.bm_invert*/);
       break;
     case 1:
-      display.drawBitmap(HMF1, 0, 40, 264, 97, GxEPD_BLACK, display.bm_transparent | display.bm_invert);
-      display.drawBitmap(HMF2, 0, 40, 264, 97, HAS_RED ? GxEPD_RED : GxEPD_BLACK, display.bm_transparent | display.bm_invert);
-      break;
-    case 2:
-      display.drawBitmap(arduino_hannover_small, display.width() - 129, display.height() - 46 - 16, 128, 45, GxEPD_BLACK, display.bm_transparent | display.bm_invert);
+      display.drawBitmap(CC35c3_2, 20, 49, 224, 77, HAS_RED ? GxEPD_RED : GxEPD_WHITE, display.bm_transparent /*| display.bm_invert*/);
+	  display.setCursor(15, 176);
+	  display.print(NAME);
       break;
   }
-  /*
-    display.setCursor(0, display.height() - 16);
-    // Spannung berechnen
-    display.print(analogRead(A0) * 4.4 / 1000.0);
-    display.print(" V, Zyklus: ");
-    display.print(rtcData);
-  */
   display.update();
 
   // Schlafen
